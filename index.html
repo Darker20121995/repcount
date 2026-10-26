@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>RepCount — Interval Rep Trainer</title>
+<meta name="description" content="Work timer, rest timer, target reps. One tap per rep. Installable on Android and iPhone.">
+<meta name="theme-color" content="#0a0c10">
+<meta name="color-scheme" content="dark">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RepCount">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div id="app" data-screen="setup">
+
+  <!-- ───────────────────────── SETUP ───────────────────────── -->
+  <section class="screen screen--setup is-active" id="screen-setup" aria-label="Workout setup">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.4" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="43 10" /><circle cx="12" cy="12" r="2.4" fill="currentColor"/></svg>
+        </span>
+        <span class="brand-name">RepCount</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" id="btnHistory" aria-label="Workout history">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 7v5l3.2 1.9M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="icon-btn" id="btnSettings" aria-label="Settings">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" stroke-width="1.9"/><path d="M19.4 13.2a7.6 7.6 0 0 0 .05-2.36l2-1.2-2-3.46-2.1.86a7.6 7.6 0 0 0-2.05-1.18L15 3.6h-4l-.3 2.26a7.6 7.6 0 0 0-2.05 1.18l-2.1-.86-2 3.46 2 1.2a7.6 7.6 0 0 0 0 2.36l-2 1.2 2 3.46 2.1-.86a7.6 7.6 0 0 0 2.05 1.18L11 20.4h4l.3-2.26a7.6 7.6 0 0 0 2.05-1.18l2.1.86 2-3.46-2.05-1.16Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="setup">
+      <div class="hero">
+        <p class="eyebrow">Interval rep trainer</p>
+        <h1>Count reps.<br><span>Own the clock.</span></h1>
+        <p class="hero-sub">Work for 30s or 1 min, tap every rep, rest 10–30s, repeat. Works offline, installs on iPhone and Android.</p>
+      </div>
+
+      <div class="presets" role="group" aria-label="Quick presets">
+        <button class="preset" data-preset="classic">
+          <strong>30 / 20</strong><span>Classic</span>
+        </button>
+        <button class="preset" data-preset="tabata">
+          <strong>20 / 10</strong><span>Tabata</span>
+        </button>
+        <button class="preset" data-preset="minute">
+          <strong>60 / 30</strong><span>1 minute</span>
+        </button>
+      </div>
+
+      <div class="config" id="configGrid">
+        <div class="setting" data-field="work">
+          <span class="setting-label">Work</span>
+          <div class="stepper">
+            <button class="step-btn" data-step="-1" aria-label="Decrease work time">−</button>
+            <output class="setting-value" id="val-work">30<span>s</span></output>
+            <button class="step-btn" data-step="1" aria-label="Increase work time">+</button>
+          </div>
+        </div>
+        <div class="setting" data-field="rest">
+          <span class="setting-label">Rest</span>
+          <div class="stepper">
+            <button class="step-btn" data-step="-1" aria-label="Decrease rest time">−</button>
+            <output class="setting-value" id="val-rest">20<span>s</span></output>
+            <button class="step-btn" data-step="1" aria-label="Increase rest time">+</button>
+          </div>
+        </div>
+        <div class="setting" data-field="sets">
+          <span class="setting-label">Sets</span>
+          <div class="stepper">
+            <button class="step-btn" data-step="-1" aria-label="Decrease number of sets">−</button>
+            <output class="setting-value" id="val-sets">4</output>
+            <button class="step-btn" data-step="1" aria-label="Increase number of sets">+</button>
+          </div>
+        </div>
+        <div class="setting" data-field="target">
+          <span class="setting-label">Rep target</span>
+          <div class="stepper">
+            <button class="step-btn" data-step="-1" aria-label="Decrease rep target">−</button>
+            <output class="setting-value" id="val-target">15</output>
+            <button class="step-btn" data-step="1" aria-label="Increase rep target">+</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="plan-line" id="planLine">4 sets · 30s work · 20s rest · target 15 reps</p>
+
+      <div class="start-wrap">
+        <button class="btn-primary" id="btnStart">
+          <span>Start workout</span>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5.5v13l10-6.5-10-6.5Z" fill="currentColor"/></svg>
+        </button>
+        <p class="start-meta" id="startMeta">≈ 3 min total</p>
+      </div>
+
+      <section class="mini-stats" id="miniStats" hidden aria-label="Lifetime stats">
+        <div><strong id="statWorkouts">0</strong><span>workouts</span></div>
+        <div><strong id="statReps">0</strong><span>reps</span></div>
+        <div><strong id="statBest">0</strong><span>best set</span></div>
+      </section>
+
+      <button class="install-card" id="installCard" hidden>
+        <span class="install-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 16v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="install-copy"><strong>Install RepCount</strong><span id="installHint">Add it to your home screen — full screen, offline.</span></span>
+        <span class="install-cta">Install</span>
+      </button>
+
+      <p class="setup-foot">One tap per rep · beeps in the last 3s · data stays on this device</p>
+    </main>
+  </section>
+
+  <!-- ───────────────────────── WORKOUT ───────────────────────── -->
+  <section class="screen screen--workout" id="screen-workout" aria-label="Workout in progress">
+    <header class="workout-top">
+      <button class="ghost-btn" id="btnEnd">End</button>
+      <div class="set-meter" id="setMeter" aria-live="polite">Set 1 / 4</div>
+      <button class="ghost-btn ghost-btn--icon" id="btnSound" aria-label="Toggle sound">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path class="sound-waves" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </header>
+
+    <div class="phase-pill" id="phasePill">Work</div>
+
+    <div class="ring-wrap">
+      <svg class="ring" viewBox="0 0 260 260" aria-hidden="true">
+        <circle class="ring-track" cx="130" cy="130" r="118"></circle>
+        <circle class="ring-progress" id="ringProgress" cx="130" cy="130" r="118"></circle>
+      </svg>
+      <div class="ring-center">
+        <span class="time-display" id="timeText">0:30</span>
+        <span class="phase-sub" id="phaseSub">get ready</span>
+      </div>
+    </div>
+
+    <button class="rep-pad" id="repPad" aria-label="Add one rep">
+      <span class="rep-pad-left">
+        <span class="rep-number" id="repCount">0</span>
+        <span class="rep-of">/ <span id="repTarget">15</span> reps</span>
+      </span>
+      <span class="rep-pad-right" aria-hidden="true">
+        <span class="plus-badge">+1</span>
+        <span class="tap-hint" id="tapHint">tap</span>
+      </span>
+      <span class="rep-pad-fill" id="repFill" aria-hidden="true"></span>
+    </button>
+
+    <div class="workout-controls">
+      <button class="ctrl-btn" id="btnMinus" aria-label="Remove one rep">−1</button>
+      <button class="ctrl-btn ctrl-btn--main" id="btnPause" aria-label="Pause workout">
+        <span id="pauseLabel">Pause</span>
+      </button>
+      <button class="ctrl-btn" id="btnSkip" aria-label="Skip current phase">Skip</button>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── SUMMARY ───────────────────────── -->
+  <section class="screen screen--summary" id="screen-summary" aria-label="Workout summary">
+    <main class="summary">
+      <p class="eyebrow" id="summaryEyebrow">Session complete</p>
+      <h2 class="summary-title" id="summaryTitle">Nice work.</h2>
+      <div class="big-total">
+        <strong id="sumTotal">0</strong>
+        <span>total reps</span>
+      </div>
+      <p class="summary-line" id="sumLine">4 sets · 30s work / 20s rest</p>
+
+      <div class="set-chips" id="sumSets" role="list" aria-label="Reps per set"></div>
+
+      <div class="summary-grid">
+        <div><strong id="sumDuration">0:00</strong><span>duration</span></div>
+        <div><strong id="sumTargets">0/4</strong><span>targets hit</span></div>
+        <div><strong id="sumBest">0</strong><span>best set</span></div>
+      </div>
+
+      <div class="summary-actions">
+        <button class="btn-primary" id="btnRepeat">Go again</button>
+        <button class="btn-secondary" id="btnDone">Done</button>
+      </div>
+    </main>
+  </section>
+
+  <!-- ───────────────────────── HISTORY ───────────────────────── -->
+  <section class="screen screen--history" id="screen-history" aria-label="Workout history">
+    <header class="topbar">
+      <button class="ghost-btn" id="btnHistoryBack" aria-label="Back">← Back</button>
+      <span class="topbar-title">History</span>
+      <button class="ghost-btn ghost-btn--danger" id="btnClearHistory">Clear</button>
+    </header>
+    <main class="history">
+      <div class="history-totals" id="historyTotals"></div>
+      <div class="history-list" id="historyList"></div>
+    </main>
+  </section>
+
+  <!-- ───────────────────────── SETTINGS SHEET ───────────────────────── -->
+  <div class="sheet-backdrop" id="sheetBackdrop" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+      <div class="sheet-grip" aria-hidden="true"></div>
+      <h2 class="sheet-title" id="sheetTitle">Settings</h2>
+
+      <label class="toggle-row">
+        <span><strong>Sound cues</strong><small>Beeps for final 3 seconds and phase changes</small></span>
+        <input type="checkbox" id="setSound" class="toggle">
+      </label>
+      <label class="toggle-row">
+        <span><strong>Vibration</strong><small>Haptic tap on every rep (Android)</small></span>
+        <input type="checkbox" id="setVibrate" class="toggle">
+      </label>
+      <label class="toggle-row">
+        <span><strong>Keep screen awake</strong><small>Blocks sleep during a workout</small></span>
+        <input type="checkbox" id="setWake" class="toggle">
+      </label>
+
+      <div class="sheet-footer">
+        <span class="version">RepCount 1.0 · offline ready</span>
+        <button class="btn-secondary btn-secondary--compact" id="btnCloseSheet">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script src="./app.js" defer></script>
+</body>
+</html>
