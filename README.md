@@ -10,8 +10,12 @@
 </p>
 
 <p align="center">
-  <b>Live demo:</b> <a href="https://darker20121995.github.io/repcount/">darker20121995.github.io/repcount</a><br>
-  <sub>Not live yet? Follow <a href="GITHUB.md">GITHUB.md</a> — one push and it's up.</sub>
+  <b>Live demo:</b> <a href="https://darker20121995.github.io/repcount/">darker20121995.github.io/repcount</a>
+</p>
+
+<p align="center">
+  <img src="screenshots/qr.png" width="150" alt="QR code to open RepCount"><br>
+  <sub>Scan with your phone camera to open it on iPhone or Android.</sub>
 </p>
 
 ---
