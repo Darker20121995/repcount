@@ -80,20 +80,6 @@ python -m http.server 4173
 > A service worker only runs on `https://` or `localhost`. On a LAN address like
 > `http://192.168.1.20:4173` the app still works, but it won't install or cache offline.
 
-## Publish on GitHub Pages
-
-Full walkthrough: **[GITHUB.md](GITHUB.md)** — or run `publish.ps1`
-(right-click → **Run with PowerShell**) on Windows.
-
-Short version:
-
-1. Create a **public** repo named `repcount` at <https://github.com/new>.
-2. Upload these files (or run `publish.ps1`) to the repo root.
-3. **Settings → Pages → Source: Deploy from a branch → `main` / `/ (root)` → Save.**
-4. Open <https://darker20121995.github.io/repcount/>.
-5. On iPhone: Safari → Share → **Add to Home Screen**.
-
-Every push to `main` redeploys the site automatically.
 
 ## Tests
 
